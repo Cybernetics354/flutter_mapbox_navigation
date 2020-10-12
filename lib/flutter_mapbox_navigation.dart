@@ -116,6 +116,7 @@ class MapBoxNavigation {
 
   RouteEvent _parseRouteEvent(String jsonString) {
     RouteEvent event;
+    print("The Data is :: $jsonString");
     var map = json.decode(jsonString);
     var progressEvent = RouteProgressEvent.fromJson(map);
     if (progressEvent != null && progressEvent.isProgressEvent) {
