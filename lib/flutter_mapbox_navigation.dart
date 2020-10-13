@@ -116,15 +116,23 @@ class MapBoxNavigation {
 
   RouteEvent _parseRouteEvent(String jsonString) {
     RouteEvent event;
-    print("The Data is :: $jsonString");
-    var map = json.decode(jsonString);
-    var progressEvent = RouteProgressEvent.fromJson(map);
-    if (progressEvent != null && progressEvent.isProgressEvent) {
-      event = RouteEvent(
-          eventType: MapBoxEvent.progress_change, data: progressEvent);
-    } else
-      event = RouteEvent.fromJson(map);
-    return event;
+    print("This is Data ::" + jsonString);
+    bool milestone = jsonString.contains("milestone_event");
+
+    if(milestone == false) {
+      var map = json.decode(jsonString.toString());
+      var progressEvent = RouteProgressEvent.fromJson(map);
+      if (progressEvent != null && progressEvent.isProgressEvent) {
+        event = RouteEvent(
+            eventType: MapBoxEvent.progress_change, data: progressEvent);
+      } else
+        event = RouteEvent.fromJson(map);
+      return event;
+    }
+
+    return RouteEvent(
+      eventType: MapBoxEvent.milestone_event
+    );
   }
 }
 
