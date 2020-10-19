@@ -12,7 +12,9 @@ class RouteEvent {
       eventType = MapBoxEvent.values[json['eventType']];
     else
       eventType = MapBoxEvent.values
-          .firstWhere((e) => e.toString().split(".").last == json['eventType']);
+          .firstWhere((e) => e.toString().split(".").last == json['eventType'], orElse: () {
+            return MapBoxEvent.exception;
+          });
     var dataJson = json['data'];
     if (eventType == MapBoxEvent.progress_change) {
       data = RouteProgressEvent.fromJson(dataJson);
