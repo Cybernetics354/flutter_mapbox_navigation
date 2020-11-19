@@ -94,7 +94,8 @@ class MapBoxNavigation {
 
   /// Will download the navigation engine and the user's region to allow offline routing
   Future<bool> enableOfflineRouting() async {
-    var success = await _methodChannel.invokeMethod('enableOfflineRouting', null);
+    var success =
+        await _methodChannel.invokeMethod('enableOfflineRouting', null);
     return success;
   }
 
@@ -119,20 +120,20 @@ class MapBoxNavigation {
     print("This is Data ::" + jsonString);
     bool milestone = jsonString.contains("milestone_event");
 
-    if(milestone == false) {
+    if (milestone == false) {
       var map = json.decode(jsonString.toString());
       var progressEvent = RouteProgressEvent.fromJson(map);
       if (progressEvent != null && progressEvent.isProgressEvent) {
         event = RouteEvent(
-            eventType: MapBoxEvent.progress_change, data: progressEvent);
+          eventType: MapBoxEvent.progress_change,
+          data: progressEvent,
+        );
       } else
         event = RouteEvent.fromJson(map);
       return event;
     }
 
-    return RouteEvent(
-      eventType: MapBoxEvent.milestone_event
-    );
+    return RouteEvent(eventType: MapBoxEvent.milestone_event);
   }
 }
 
